@@ -23,6 +23,9 @@ const detailsPanel = document.querySelector('#details-panel');
 const detailsTitle = document.querySelector('#details-title');
 const detailsDescription = document.querySelector('#details-description');
 
+const filterButtons = document.querySelectorAll('.filter-button');
+const visibleCount = document.querySelector('#visible-count');
+
 function selectCard(card) {
     cards.forEach((item) => {
         item.classList.remove('collection-card--selected');
@@ -41,6 +44,37 @@ function selectCard(card) {
         detailsPanel.classList.add('details-panel--pulse');
     });
 }
+
+function applyFilter(filter) {
+    let count = 0;
+
+    cards.forEach((card) => {
+        const matches =
+        filter === 'all' || card.dataset.category === filter;
+
+        card.classList.toggle('collection-card--hidden', !matches);
+
+        if (matches) {
+        count += 1;
+        }
+    });
+
+    visibleCount.textContent = String(count);
+}
+
+filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        filterButtons.forEach((item) => {
+        item.classList.remove('filter-button--active');
+        item.setAttribute('aria-pressed', 'false');
+        });
+
+        button.classList.add('filter-button--active');
+        button.setAttribute('aria-pressed', 'true');
+
+        applyFilter(button.dataset.filter);
+    });
+});
 
 cards.forEach((card) => {
     card.addEventListener('click', () => {
