@@ -45,6 +45,16 @@ function selectCard(card) {
     });
 }
 
+function clearSelection() {
+    cards.forEach((card) => {
+        card.classList.remove('collection-card--selected');
+        card.setAttribute('aria-pressed', 'false');
+    });
+
+    detailsTitle.textContent = 'Выберите карточку';
+    detailsDescription.textContent = 'Здесь появится описание выбранного элемента. Используйте данные из атрибутов карточки, не дублируйте тексты в JavaScript.';
+}
+
 function applyFilter(filter) {
     let count = 0;
 
@@ -58,6 +68,12 @@ function applyFilter(filter) {
         count += 1;
         }
     });
+
+    const selectedCard = document.querySelector('.collection-card--selected');
+
+    if (selectedCard && selectedCard.classList.contains('collection-card--hidden')) {
+        clearSelection();
+    }
 
     visibleCount.textContent = String(count);
 }
