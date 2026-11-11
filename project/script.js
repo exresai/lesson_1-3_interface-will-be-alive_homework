@@ -25,6 +25,8 @@ const detailsDescription = document.querySelector('#details-description');
 
 const filterButtons = document.querySelectorAll('.filter-button');
 const randomButton = document.querySelector('#random-button');
+const resetButton = document.querySelector('#reset-button');
+
 const visibleCount = document.querySelector('#visible-count');
 
 function selectCard(card) {
@@ -117,4 +119,20 @@ randomButton.addEventListener('click', () => {
     const randomIndex = Math.floor(Math.random() * availableCards.length);
 
     selectCard(availableCards[randomIndex]);
+});
+
+resetButton.addEventListener('click', () => {
+    clearSelection();
+
+    filterButtons.forEach((button) => {
+        button.classList.remove('filter-button--active');
+        button.setAttribute('aria-pressed', 'false');
+    });
+
+    const allButton = document.querySelector('.filter-button[data-filter="all"]');
+
+    allButton.classList.add('filter-button--active');
+    allButton.setAttribute('aria-pressed', 'true');
+
+    applyFilter('all');
 });
