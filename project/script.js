@@ -24,6 +24,7 @@ const detailsTitle = document.querySelector('#details-title');
 const detailsDescription = document.querySelector('#details-description');
 
 const filterButtons = document.querySelectorAll('.filter-button');
+const randomButton = document.querySelector('#random-button');
 const visibleCount = document.querySelector('#visible-count');
 
 function selectCard(card) {
@@ -96,4 +97,24 @@ cards.forEach((card) => {
     card.addEventListener('click', () => {
         selectCard(card);
     });
+});
+
+randomButton.addEventListener('click', () => {
+    const visibleCards = Array.from(cards).filter(
+        (card) => !card.classList.contains('collection-card--hidden')
+    );
+
+    const selectedCard = document.querySelector('.collection-card--selected');
+
+    let availableCards = visibleCards;
+
+    if (selectedCard && visibleCards.length > 1) {
+        availableCards = visibleCards.filter(
+            (card) => card !== selectedCard
+        );
+    }
+
+    const randomIndex = Math.floor(Math.random() * availableCards.length);
+
+    selectCard(availableCards[randomIndex]);
 });
